@@ -6,9 +6,9 @@
   </header>
 
   <mat-form-field appearance="fill">
-    <mat-label>Enter a date range</mat-label>
+    <mat-label>Enter a date range:</mat-label>
     <mat-date-range-input required="true" [formGroup]="range" [rangePicker]="picker">
-      <input matStartDate formControlName="start" placeholder="Start date">
+      <input matStartDate [min]="today" formControlName="start" placeholder="Start date">
       <input matEndDate required (dateChange)="getCommitInRange()" formControlName="end" placeholder="End date">
     </mat-date-range-input>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -17,31 +17,31 @@
     <mat-error *ngIf="range.controls.end.hasError('required')">End date is required</mat-error>
   </mat-form-field>
 
-  <ng-container *ngIf="commits?.length else noCommits">
-    <article class="commit-overview__item" *ngFor="let commit of commits">
-      <header class="commit-overview__item-header">
-        <h4 class="commit-overview__item-heading">Commit summary</h4>
-      </header>
-      <div class="commit-overview__item-details">
-        <p><strong>commit:</strong> {{ commit.sha }}</p>
-        <p><strong>Author:</strong> {{ commit.commit.author.name }}</p>
-        <p><strong>Date:</strong> {{ commit.commit.author.date | date }}</p>
-        <p><strong>Message:</strong> {{commit.commit.message.split('\n')[0]}}</p>
-      </div>
-      <footer class="commit-overview__item-footer">
-        <button>View details</button>
-      </footer>
-    </article>
+  <ng-container *ngIf="commits$ | async as commits">
+    <ng-container *ngIf="commits.length else noCommits">
+      <article class="commit-overview__item" *ngFor="let commit of commits">
+        <header class="commit-overview__item-header">
+          <h4 class="commit-overview__item-heading">Commit summary</h4>
+        </header>
+        <div class="commit-overview__item-details">
+          <p><strong>commit:</strong> {{ commit.sha }}</p>
+          <p><strong>Author:</strong> {{ commit.commit.author.name }}</p>
+          <p><strong>Date:</strong> {{ commit.commit.author.date | date }}</p>
+          <p><strong>Message:</strong> {{commit.commit.message.split('\n')[0]}}</p>
+        </div>
+        <footer class="commit-overview__item-footer">
+          <button>View details</button>
+        </footer>
+      </article>
+    </ng-container>
+
+    <div class="commit-overview__pagination">
+      <button (click)="fetchPage(page - 1)" [disabled]="page === 1">Prev</button>
+      <button (click)="fetchPage(page + 1)" [disabled]="!commits.length || commits.length < 30">Next</button>
+    </div>
   </ng-container>
 
-  <div class="commit-overview__pagination">
-    <button (click)="fetchPage(page - 1)" [disabled]="page === 1">Prev</button>
-    <button (click)="fetchPage(page + 1)" [disabled]="!commits.length">Next</button>
-  </div>
-
   <ng-template #noCommits>
-    <div>
-      No more commits to show
-    </div>
+    <p>No commits to show</p>
   </ng-template>
 </section>

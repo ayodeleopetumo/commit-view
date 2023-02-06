@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from "rxjs";
+import { map, Observable } from "rxjs";
 
 import { CommitService } from "../../../core/services/commit-service/commit-service.service";
 import { CommitResponse } from "../../../core/models/commit-response.model";
@@ -11,8 +11,9 @@ import { FormControl, FormGroup } from "@angular/forms";
   styleUrls: ['./commit-overview.component.css']
 })
 export class CommitOverviewComponent implements OnInit {
+  today = new Date().toISOString();
   page = 1;
-  commits!: CommitResponse[];
+  commits$!: Observable<CommitResponse[]>;
   range = new FormGroup({
     start: new FormControl<Date>(this.getOneMonthFromCurrentDate()),
     end: new FormControl<Date>(new Date()),
@@ -22,19 +23,16 @@ export class CommitOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    const today = new Date().toISOString();
     const monthAgo = this.getOneMonthFromCurrentDate().toISOString()
-    this.getCommits(monthAgo, today);
+    this.getCommits(monthAgo, this.today);
   }
 
   getCommits(since: string, until: string, page?: number) {
-    this.commitService.getCommits(since, until, page).pipe(map(commits => {
-      return commits.sort((commitA, commitB) => {
-          // @ts-ignore
-          return new Date(commitB.commit.author.date) - new Date(commitA.commit.author.date)
-        }
-      )
-    })).subscribe(commits => this.commits = commits);
+    this.commits$ = this.commitService.getCommits(since, until, page).pipe(map(commits =>
+      commits.sort((commitA, commitB) =>
+        // @ts-ignore
+        new Date(commitB.commit.author.date) - new Date(commitA.commit.author.date)
+    )));
   }
 
   getOneMonthFromCurrentDate() {
@@ -56,7 +54,6 @@ export class CommitOverviewComponent implements OnInit {
     this.page = page;
     const since = this.range.get('start')?.value!?.toISOString();
     const until = this.range.get('end')?.value!?.toISOString();
-    console.log(this.range.value, page);
     this.getCommits(since, until, page);
   }
 }
