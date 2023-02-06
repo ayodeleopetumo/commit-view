@@ -5,11 +5,13 @@ import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
 import { CoreModule } from "./core/core.module";
 import { CommitOverviewModule } from "./features/commit-overview/commit-overview.module";
+
 import { AppComponent } from './app.component';
-import { CommitOverviewComponent } from './features/commit-overview/components/commit-overview.component';
+import { CommitOverviewComponent } from './features/commit-overview/components/commit-overview/commit-overview.component';
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', component: CommitOverviewComponent}
+  { path: '', pathMatch: 'full', component: CommitOverviewComponent },
+  { path: 'commit-details/:sha', loadChildren: () => import('./features/commit-details/commit-details.module').then(m => m.CommitDetailsModule) }
 ]
 
 @NgModule({

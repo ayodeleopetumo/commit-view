@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { map, Observable } from "rxjs";
 
-import { CommitService } from "../../../core/services/commit-service/commit-service.service";
-import { CommitResponse } from "../../../core/models/commit-response.model";
+import { CommitService } from "../../../../core/services/commit-service/commit-service.service";
+import { CommitResponse } from "../../../../core/models/commit-response.model";
 import { FormControl, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-commit-overview',
@@ -19,7 +20,7 @@ export class CommitOverviewComponent implements OnInit {
     end: new FormControl<Date>(new Date()),
   });
 
-  constructor(private commitService: CommitService) {
+  constructor(private commitService: CommitService, private router: Router) {
   }
 
   ngOnInit() {
@@ -55,5 +56,9 @@ export class CommitOverviewComponent implements OnInit {
     const since = this.range.get('start')?.value!?.toISOString();
     const until = this.range.get('end')?.value!?.toISOString();
     this.getCommits(since, until, page);
+  }
+
+  goToCommitDetails(commitSha: string) {
+    this.router.navigateByUrl(`commit-details/${commitSha}`);
   }
 }

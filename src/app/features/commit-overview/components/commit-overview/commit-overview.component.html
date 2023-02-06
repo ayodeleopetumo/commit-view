@@ -19,18 +19,18 @@
 
   <ng-container *ngIf="commits$ | async as commits">
     <ng-container *ngIf="commits.length else noCommits">
-      <article class="commit-overview__item" *ngFor="let commit of commits">
-        <header class="commit-overview__item-header">
-          <h4 class="commit-overview__item-heading">Commit summary</h4>
+      <article class="card" *ngFor="let commit of commits">
+        <header class="card__header">
+          <h4 class="card__heading">Commit summary</h4>
         </header>
-        <div class="commit-overview__item-details">
+        <div class="card__details">
           <p><strong>commit:</strong> {{ commit.sha }}</p>
           <p><strong>Author:</strong> {{ commit.commit.author.name }}</p>
           <p><strong>Date:</strong> {{ commit.commit.author.date | date }}</p>
           <p><strong>Message:</strong> {{commit.commit.message.split('\n')[0]}}</p>
         </div>
-        <footer class="commit-overview__item-footer">
-          <button>View details</button>
+        <footer class="card__footer">
+          <button (click)="goToCommitDetails(commit.sha)">View details</button>
         </footer>
       </article>
     </ng-container>
