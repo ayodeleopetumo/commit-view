@@ -4,9 +4,7 @@
       <h4 class="card__heading">Commit details</h4>
     </header>
     <div class="card__details">
-      <p>
-        <img [src]="commit.author.avatar_url">
-      </p>
+      <p><img [src]="commit.author.avatar_url" [alt]="commit.commit.author.name"></p>
       <p><strong>Author:</strong> {{ commit.commit.author.name }}</p>
       <p><strong>commit:</strong> {{ commit.sha }}</p>
       <p><strong>Date:</strong> {{ commit.commit.author.date | date }}</p>
