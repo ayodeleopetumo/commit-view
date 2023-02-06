@@ -1,0 +1,20 @@
+<ng-container *ngIf="commitDetails$ | async as commit">
+  <article class="commit-details card">
+    <header class="card__header">
+      <h4 class="card__heading">Commit details</h4>
+    </header>
+    <div class="card__details">
+      <p>
+        <img [src]="commit.author.avatar_url">
+      </p>
+      <p><strong>Author:</strong> {{ commit.commit.author.name }}</p>
+      <p><strong>commit:</strong> {{ commit.sha }}</p>
+      <p><strong>Date:</strong> {{ commit.commit.author.date | date }}</p>
+      <p class="commit-details__message"><strong>Message:</strong> {{commit.commit.message }}</p>
+    </div>
+    <footer class="card__footer">
+      <button (click)="goBackToOverview()">Back to overview</button>
+      <button (click)="goToUrl(commit.html_url)">Go to commit</button>
+    </footer>
+  </article>
+</ng-container>

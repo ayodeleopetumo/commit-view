@@ -1,0 +1,7 @@
+.commit-details {
+  margin-top: 20px;
+}
+
+.commit-details__message {
+  white-space: pre-line;
+}
