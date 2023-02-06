@@ -9,7 +9,7 @@
     <mat-label>Enter a date range</mat-label>
     <mat-date-range-input required="true" [formGroup]="range" [rangePicker]="picker">
       <input matStartDate formControlName="start" placeholder="Start date">
-      <input matEndDate required (dateChange)="getNew($event)" formControlName="end" placeholder="End date">
+      <input matEndDate required (dateChange)="getCommitInRange()" formControlName="end" placeholder="End date">
     </mat-date-range-input>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>

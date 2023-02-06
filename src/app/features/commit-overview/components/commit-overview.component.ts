@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable } from "rxjs";
+import { map } from "rxjs";
 
 import { CommitService } from "../../../core/services/commit-service/commit-service.service";
 import { CommitResponse } from "../../../core/models/commit-response.model";
@@ -44,11 +44,10 @@ export class CommitOverviewComponent implements OnInit {
     return date;
   }
 
-  getNew(e: any) {
+  getCommitInRange() {
     if (this.range.valid) {
       const since = this.range.get('start')?.value!?.toISOString();
       const until = this.range.get('end')?.value!?.toISOString();
-      console.log({since, until})
       this.getCommits(since, until);
     }
   }
