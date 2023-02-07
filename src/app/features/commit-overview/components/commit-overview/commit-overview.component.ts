@@ -3,7 +3,7 @@ import { map, Observable } from "rxjs";
 
 import { CommitService } from "../../../../core/services/commit-service/commit-service.service";
 import { CommitResponse } from "../../../../core/models/commit-response.model";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 
 @Component({
@@ -17,14 +17,14 @@ export class CommitOverviewComponent implements OnInit {
   commits$!: Observable<CommitResponse[]>;
   range = new FormGroup({
     start: new FormControl<Date>(this.getOneMonthFromCurrentDate()),
-    end: new FormControl<Date>(new Date()),
+    end: new FormControl<Date>(new Date(), {validators: Validators.required}),
   });
 
   constructor(private commitService: CommitService, private router: Router) {
   }
 
   ngOnInit() {
-    const monthAgo = this.getOneMonthFromCurrentDate().toISOString()
+    const monthAgo = this.getOneMonthFromCurrentDate().toISOString();
     this.getCommits(monthAgo, this.today);
   }
 

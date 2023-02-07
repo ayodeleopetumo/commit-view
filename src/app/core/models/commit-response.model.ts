@@ -18,13 +18,13 @@ export interface CommitDetailsResponse extends CommitResponse {
 export interface Author {
   name: string;
   email: string;
-  date: Date;
+  date: string;
 }
 
 export interface Committer {
   name: string;
   email: string;
-  date: Date;
+  date: string;
 }
 
 export interface Tree {
