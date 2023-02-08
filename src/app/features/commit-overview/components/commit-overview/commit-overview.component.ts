@@ -40,6 +40,7 @@ export class CommitOverviewComponent implements OnInit {
     const date = new Date();
     date.setMonth(date.getMonth() - 1);
     date.setHours(0, 0, 0, 0);
+    date.setDate(1);
     return date;
   }
 
