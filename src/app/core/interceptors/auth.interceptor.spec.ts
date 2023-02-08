@@ -17,10 +17,10 @@ describe('AuthInterceptor', () => {
     interceptor.intercept(req, next);
 
     const expected = req.clone({
-      headers: req.headers.set('Authorization', `Bearer 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`),
+      headers: req.headers.set('Authorization', `Bearer `),
     });
 
     expect(next.handle).toHaveBeenCalledWith(expected);
-    expect(modifiedRequest.headers.get('Authorization')).toEqual('Bearer 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');
+    expect(modifiedRequest.headers.get('Authorization')).toEqual('Bearer ');
   });
 });

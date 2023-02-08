@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let authRequest;
-    const authToken: string = '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'
+    const authToken: string = ''
 
     authRequest = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${authToken}`),
